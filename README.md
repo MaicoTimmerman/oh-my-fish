@@ -1,66 +1,133 @@
+<img src="https://cdn.rawgit.com/oh-my-fish/oh-my-fish/e4f1c2e0219a17e2c748b824004c8d0b38055c16/docs/logo.svg" align="left" width="192px" height="192px"/>
+<img align="left" width="0" height="192px" hspace="10"/>
+
+> The <a href="http://fishshell.com">Fishshell</a> Framework
+
+[![MIT License](https://img.shields.io/badge/license-MIT-007EC7.svg?style=flat-square)](/LICENSE.md) [![Fish Shell Version](https://img.shields.io/badge/fish-v2.2.0-007EC7.svg?style=flat-square)](http://fishshell.com) [![Travis Build Status](http://img.shields.io/travis/oh-my-fish/oh-my-fish.svg?style=flat-square)](https://travis-ci.org/oh-my-fish/oh-my-fish) [![Slack Status](https://oh-my-fish-slack.herokuapp.com/badge.svg)](https://oh-my-fish-slack.herokuapp.com)
+
+
+Oh My Fish provides core infrastructure to allow you to install packages which extend or modify the look of your shell. It's  fast, extensible and easy to use.
+
+<br><br>
+
 <p align="center">
-<a href="https://github.com/oh-my-fish/oh-my-fish">
-<img width=20% src="https://cloud.githubusercontent.com/assets/958723/6883431/9beb62b0-d58b-11e4-902c-2f716859a7ad.png">
-</a>
+  <b>English</b> &bull;
+  <a href="docs/zh-CN">简体中文</a>
 </p>
 
-<a name="omf"></a>
-
-[![Build Status](https://travis-ci.org/oh-my-fish/oh-my-fish.svg?branch=master)](https://travis-ci.org/oh-my-fish/oh-my-fish) [![](https://img.shields.io/badge/Framework-Oh My Fish-blue.svg?style=flat)](https://github.com/oh-my-fish/oh-my-fish) ![](https://img.shields.io/cocoapods/l/AFNetworking.svg) [![Join the chat at https://gitter.im/oh-my-fish/oh-my-fish](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/oh-my-fish/oh-my-fish?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-
-# Oh My Fish!
-
-### Why?
-  Developing on a shell should be a pleasure. Our goal is to help developers that do not want to spend time configuring their own computer to spend time doing what they want.
-
-### How?
-  With the power of our community, we take the already awesome [fish shell][fish] to another level by creating simple-to-use plugins and themes.
-
-[fish]: http://fishshell.com/
-
-### What?
-  Oh-my-fish is a user-friendly framework for managing your fish-shell configuration. It includes optional plugins (brew, git-flow, rails, python, node, etc) and themes.
-
-<br>
-## Installation
+# Install
 
 ```fish
-curl -L https://github.com/oh-my-fish/oh-my-fish/raw/master/tools/install.fish | fish
+curl -L https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install | fish
+omf help
 ```
 
-**NOTE**: The installation script renames your existing `config.fish` to `config.orig`, and replaces it with [the default oh-my-fish config](https://github.com/oh-my-fish/oh-my-fish/blob/master/templates/config.fish). If you have existing customizations to your fish config, you will need to manually include those customizations after the install.
+Or _download_ and run it yourself:
 
-If you want to install it manually, [click here](https://github.com/oh-my-fish/oh-my-fish/wiki/Manual-Installation).
+```fish
+curl -L https://github.com/oh-my-fish/oh-my-fish/raw/master/bin/install > install
+fish install
+```
 
-## Usage
+## Update Instructions
 
-Open your fish configuration file `~/.config/fish/config.fish` and specify the theme and the plugins you want to use. And then run `omf install` on your terminal to install them.
+We just moved Oh My Fish repository back to our own organization. Since then, you need to update your Oh My Fish remotes. A clean install is highly recommended for users of old Oh My Fish, and you can follow the steps described below:
 
-Before setting down on a theme, you might want to have a go with all themes using our quick [theme switcher](https://github.com/oh-my-fish/plugin-theme) by typing `theme --help` on your shell.
+1. __BACKUP ALL YOUR CUSTOM STUFF__
+2. `mv ~/.config/fish/config{,_old}.fish`
+3. `rm -rf ~/.oh-my-fish`
+4. Do a [clean Oh My Fish install](#install)
+5. Copy all lines starting with `Plugin` and `Theme` from `~/.config/fish/config_old.fish`
+6. Paste them it into `$OMF_CONFIG/bundle` file. If it doesn't exist, create it
+7. Convert all `Plugin "name"` lines to `package name`
+8. Convert all `Theme "name"` lines to `theme name`
+9. `omf install`
 
-## Upgrading from previous version
+If you find any trouble in the upgrade process join us in [Slack](https://oh-my-fish-slack.herokuapp.com) and we will be happy to help.
 
-[![asciicast](https://asciinema.org/a/20802.png)](https://asciinema.org/a/20802)
+# Getting Started
 
-## Customization
+Oh My Fish includes a small utility `omf` to fetch and install new packages and themes.
 
-If you have many functions which go well together, you can create custom plugin in the `custom/plugins/PLUGIN_NAME` directory and add to it as many functions as you want.
+#### `omf update`
 
-If you would like to use your custom theme, move it with the same name in the `custom/themes/` directory and it will override the original theme in `themes/`.
+Update the framework and installed packages.
 
-If you just want to override any of the default behavior or add some environment variables, just add a new file (ending in .load) into the `custom/` directory.
+#### `omf install` _`[<name>|<url>]`_
 
-## Contributing
+Install one _or more_ packages.
 
-Create an [issue](https://github.com/oh-my-fish/oh-my-fish/issues) linking to your repository and we will move it to the [oh-my-fish](https://github.com/oh-my-fish) organization.
+- You can install packages directly by URL via `omf install URL`
+- When called without arguments, install missing packages from [bundle](#dotfiles).
 
-## Uninstall
+#### `omf list`
 
-    rm -rf ~/.oh-my-fish
-    
-## License
+List installed packages.
 
-[MIT](http://mit-license.org) © [Contributors](https://github.com/oh-my-fish/oh-my-fish/graphs/contributors)
+#### `omf theme` _`<theme>`_
 
-[Logo](https://cloud.githubusercontent.com/assets/958723/6847746/8d1b95b0-d3a7-11e4-866a-6bdc1eea0fe6.png) by [marcker](https://github.com/marcker):small_blue_diamond: [Attribution CC 4.0](http://creativecommons.org/licenses/by/4.0/)
+Apply a theme. To list available themes type `omf theme`. You can also [preview available Themes](./docs/Themes.md) before installing.
+
+#### `omf remove` _`<name>`_
+
+Remove a theme or package.
+
+> Packages subscribed to `uninstall_<pkg>` events are notified before the package is removed, so custom cleanup of resources can be done. See [Uninstall](/docs/Packages.md#uninstall) for more information.
+
+#### `omf new pkg | theme` _`<name>`_
+
+Scaffold out a new package or theme.
+
+> This creates a new directory under `$OMF_CONFIG/{pkg | themes}/` with a template.
+
+#### `omf submit` _`pkg/<name>`_ _`[<url>]`_
+
+Add a new package. To add a theme use `omf submit` _`themes/<name>`_ _`<url>`_.
+
+Make sure to [send us a PR][omf-pulls-link] to update the registry.
+
+#### `omf doctor`
+
+Use to troubleshoot before [opening an  issue][omf-issues-new].
+
+#### `omf destroy`
+
+Uninstall Oh My Fish.
+
+# Advanced
+
+Oh My Fish installer places its startup code in your fish config file (`~/.config/fish/config.fish`).
+
+## Startup
+
+Everytime you open a new shell the startup code initializes Oh My Fish installation path and the _config_ path (`~/.config/omf` by default), sourcing the [`init.fish`](init.fish) script afterwards, which autoload packages, themes and your custom init files. For more information check the [FAQ](docs/en-US/FAQ.md#what-does-oh-my-fish-do-exactly).
+
+## Dotfiles
+
+The `$OMF_CONFIG` directory represents the user state of Oh My Fish, and is the perfect
+candidate for being added to your dotfiles and/or checked out to version control. There are four important files:
+
+- __`theme`__ - The current theme
+- __`bundle`__ - List of currently installed packages/themes
+- __`init.fish`__ - Custom script sourced after shell start
+- __`before.init.fish`__ - Custom script sourced before shell start
+
+It's highly recommended that your custom startup commands go into `init.fish` file instead of `~/.config/fish/config.fish`, as this allows you to keep the whole `$OMF_CONFIG` directory under version control.
+
+If you need startup commands to be run *before* Oh My Fish begins loading plugins, place them in `before.init.fish` instead. If you're unsure, it is usually best to put things in `init.fish`.
+
+### About the bundle
+
+Everytime a package/theme is installed or removed the `bundle` file is updated. You can also edit it manually and run `omf install` afterwards to satisfy the changes. Please note that while packages/themes added to the bundle gets automagically installed, a package/theme removed from bundle isn't removed from user installation.
+
+## Creating Packages
+
+Oh My Fish uses an advanced and well defined plugin architecture to ease plugin development, including init/uninstall events and function autoloading. [See the documentation](docs/en-US/Packages.md) for more details.
+
+[fishshell]: http://fishshell.com
+
+[contributors]: https://github.com/oh-my-fish/oh-my-fish/graphs/contributors
+
+[omf-pulls-link]: https://github.com/oh-my-fish/oh-my-fish/pulls
+
+[omf-issues-new]: https://github.com/oh-my-fish/oh-my-fish/issues/new

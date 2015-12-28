@@ -1,18 +1,14 @@
-FROM ubuntu:latest
+FROM ohmyfish/fish:2.2.0
 
-# Install dependencies
-RUN apt-get -y install curl git software-properties-common
+COPY . /src/oh-my-fish
 
-# Set bootstrap script environment variables
-ENV FISH_PPA=nightly-master \
-  TRAVIS_OS_NAME=linux TRAVIS_REPO_SLUG=oh-my-fish/oh-my-fish TRAVIS_BRANCH=master
+# Prevent install from opening a new fish shell
+ENV CI WORKAROUND
 
-# Cache script folder
-ADD script /src/script
+# Replace this when offline installation is supported
+ARG OMF_REPO_BRANCH=master
+ARG OMF_REPO_URI=https://github.com/oh-my-fish/oh-my-fish
 
-# Install fish and oh-my-fish
-RUN /src/script/bootstrap.sh
+RUN fish /src/oh-my-fish/bin/install
 
-WORKDIR /root/.oh-my-fish
-
-CMD ["fish", "./script/run-tests.fish", "--verbose"]
+WORKDIR /root/.local/share/omf
